@@ -4,5 +4,5 @@ from bookstore.views import all_books, full_desc
 
 urlpatterns = [
     path('', all_books),
-    path('<int:id>', full_desc, name='full_desc')
+    path('desc/<int:id>', full_desc, name='full_desc')
 ]

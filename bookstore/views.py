@@ -41,5 +41,6 @@ authors = [{'id': 1, 'first_name': 'Luciano', 'last_name': 'Ramalho', 'age': 51}
 def all_books(request: HttpRequest):
     return render(request, 'bookstore/index.html', {'books': books})
 
+
 def full_desc(request: HttpRequest, id):
     return render(request, 'bookstore/full_desc.html', {'description': books[id - 1]['description']})
