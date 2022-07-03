@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.title }}</title>
+</head>
+<body>
+    <div>
+        <h2>{{ book.title }}</h2>
+        <h3>{{ book.released_year }}</h3>
+        <p>{{ book.description }}</p>
+        <a href="{% url 'get_author' book.author_id %}">Author info</a>
+        <br>
+        <a href="{% url 'all_books' %}">List of books</a>
+    </div>
+</body>
+</html>
