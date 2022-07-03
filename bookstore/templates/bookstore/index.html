@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore</title>
+</head>
+<body>
+<div>
+    <h1>Lists of books</h1>
+    {% for book in books %}
+        <h2>{{ book.title }}</h2>
+        <h3>{{ book.released_year }}</h3>
+        <p>{{ book.description|slice:30 }}<a href="{% url 'full_desc' book.id %}">...more</a></p>
+    {% endfor %}
+</div>
+</body>
+</html>

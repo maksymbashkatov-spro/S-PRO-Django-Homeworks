@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from django.shortcuts import render
 
 books = [{'id': 1,
@@ -35,3 +36,10 @@ authors = [{'id': 1, 'first_name': 'Luciano', 'last_name': 'Ramalho', 'age': 51}
            {'id': 1, 'first_name': 'FirstName3', 'last_name': 'LastName3', 'age': 37},
            {'id': 1, 'first_name': 'FirstName4', 'last_name': 'LastName4', 'age': 29},
            {'id': 1, 'first_name': 'FirstName5', 'last_name': 'LastName5', 'age': 43}]
+
+
+def all_books(request: HttpRequest):
+    return render(request, 'bookstore/index.html', {'books': books})
+
+def full_desc(request: HttpRequest, id):
+    return render(request, 'bookstore/full_desc.html', {'description': books[id - 1]['description']})
