@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ author.first_name }} {{ author.last_name }}</title>
-</head>
-<body>
-    <div>
-        <h3>{{ author.first_name }} {{ author.last_name }}</h3>
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+    <div class="col card">
+        <h3 class="title">{{ author.first_name }} {{ author.last_name }}</h3>
         <p>Age - {{ author.age }}</p>
-        <a href="{% url 'get_authors_books' author.id %}">Author's books</a><br>
+        <a href="{% url 'get_authors_books' author.id %}">Author's books</a>
         <a href="{% url 'all_books' %}">Main page</a>
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}

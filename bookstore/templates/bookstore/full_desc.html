@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Full description of the book.</title>
-</head>
-<body>
-    <div>
-        <p>{{ description }}</p>
-    </div>
-</body>
-</html>
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+    <p>{{ description }}</p>
+</div>
+{% endblock content %}
