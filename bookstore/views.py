@@ -1,4 +1,4 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseNotFound
 from django.shortcuts import render
 
 books = [{'id': 1,
@@ -46,18 +46,30 @@ def all_books(request: HttpRequest):
 
 
 def full_desc(request: HttpRequest, id):
-    return render(request, 'bookstore/full_desc.html', {'description': books[id - 1]['description']})
+    try:
+        return render(request, 'bookstore/full_desc.html', {'description': books[id - 1]['description']})
+    except:
+        return HttpResponseNotFound(f'The description is not found, because the book with id {id} not found.')
 
 
 def get_book(request: HttpRequest, id):
-    return render(request, 'bookstore/get_book.html', {'book': books[id - 1]})
+    try:
+        return render(request, 'bookstore/get_book.html', {'book': books[id - 1]})
+    except:
+        return HttpResponseNotFound(f'The book with id {id} not found.')
 
 
 def get_author(request: HttpRequest, id):
-    return render(request, 'bookstore/get_author.html', {'author': authors[id - 1]})
+    try:
+        return render(request, 'bookstore/get_author.html', {'author': authors[id - 1]})
+    except:
+        return HttpResponseNotFound(f'The author with id {id} not found.')
 
 
 def get_authors_books(request: HttpRequest, id):
     authors_books = [book for book in books if book['author_id'] == id]
     author = str(*(f"{author['first_name']} {author['last_name']}" for author in authors if author['id'] == 1))
-    return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
+    try:
+        return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
+    except:
+        return HttpResponseNotFound(f'Books by this author is not found.')
