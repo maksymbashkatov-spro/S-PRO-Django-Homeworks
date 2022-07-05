@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ author }} books.</title>
+</head>
+<body>
+    <div>
+        {% for book in authors_books %}
+            <h2>{{ book.title }}</h2>
+            <h3>{{ book.released_year }}</h3>
+            <p>{{ book.description|slice:30 }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
