@@ -68,7 +68,7 @@ def get_author(request: HttpRequest, id):
 
 def get_authors_books(request: HttpRequest, id):
     authors_books = [book for book in books if book['author_id'] == id]
-    author = str(*(f"{author['first_name']} {author['last_name']}" for author in authors if author['id'] == 1))
+    author = str(*(f"{author['first_name']} {author['last_name']}" for author in authors if author['id'] == id))
     try:
         return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
     except:
