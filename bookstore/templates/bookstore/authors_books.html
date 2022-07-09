@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ author }} books.</title>
-</head>
-<body>
-    <div>
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
         {% for book in authors_books %}
-            <h2>{{ book.title }}</h2>
-            <h3>{{ book.released_year }}</h3>
-            <p>{{ book.description|slice:30 }}</p>
+            <div class="col card">
+                <h2 class="title">{{ book.title }}</h2>
+                <h3>{{ book.released_year }}</h3>
+                <p>{{ book.description|slice:30 }}</p>
+            </div>
         {% endfor %}
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}

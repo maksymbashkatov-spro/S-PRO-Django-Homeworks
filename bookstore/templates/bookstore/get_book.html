@@ -5,7 +5,7 @@
         <h2 class="title">{{ book.title }}</h2>
         <h3>{{ book.released_year }}</h3>
         <p>{{ book.description }}</p>
-        <a href="{% url 'get_author' book.author_id %}">Author info</a>
+        <a href="{% url 'get_author' book.author.id %}">Author info</a>
         <a href="{% url 'all_books' %}">List of books</a>
     </div>
 </div>
