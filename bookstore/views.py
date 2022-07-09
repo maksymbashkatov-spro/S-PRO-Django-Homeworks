@@ -4,7 +4,11 @@ from bookstore.models import Book, Author
 
 
 def all_books(request: HttpRequest):
-    return render(request, 'bookstore/index.html', {'books': Book.objects.all()})
+    books = Book.objects.all()
+    if request.method == 'GET' and 'book_title' in request.GET:
+        book_title = request.GET['book_title']
+        books = books.filter(title=book_title)
+    return render(request, 'bookstore/index.html', {'books': books})
 
 
 def full_desc(request: HttpRequest, id):
