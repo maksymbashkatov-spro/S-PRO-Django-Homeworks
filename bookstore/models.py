@@ -1,7 +1,5 @@
 from django.db import models
 
-# from bookstore.views import authors, books
-
 
 class Author(models.Model):
     first_name = models.CharField(max_length=30)
