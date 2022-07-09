@@ -37,3 +37,7 @@ def get_authors_books(request: HttpRequest, id):
         return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
     except:
         return HttpResponseNotFound(f'Books by this author is not found.')
+
+
+def create_book(request):
+    return render(request, 'bookstore/create_book.html')
