@@ -1,5 +1,5 @@
-from django.http import HttpRequest, HttpResponseNotFound
-from django.shortcuts import render
+from django.http import HttpRequest
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 
 from bookstore.forms import CreateBookForm
 from bookstore.models import Book, Author
@@ -24,31 +24,22 @@ def all_books(request: HttpRequest):
 
 
 def full_desc(request: HttpRequest, id):
-    try:
-        return render(request, 'bookstore/full_desc.html', {'description': Book.objects.get(pk=id).description})
-    except:
-        return HttpResponseNotFound(f'The description is not found, because the book with id {id} not found.')
+    return render(request, 'bookstore/full_desc.html', {'description': get_object_or_404(Book, pk=id).description})
 
 
 def get_book(request: HttpRequest, id):
-    return render(request, 'bookstore/get_book.html', {'book': Book.objects.get(pk=id)})
+    return render(request, 'bookstore/get_book.html', {'book': get_object_or_404(Book, pk=id)})
 
 
 def get_author(request: HttpRequest, id):
-    try:
-        return render(request, 'bookstore/get_author.html', {'author': Author.objects.get(pk=id)})
-    except:
-        return HttpResponseNotFound(f'The author with id {id} not found.')
+    return render(request, 'bookstore/get_author.html', {'author': get_object_or_404(Author, pk=id)})
 
 
 def get_authors_books(request: HttpRequest, id):
-    authors_books = Book.objects.filter(author=id)
+    authors_books = get_list_or_404(Book, author=id)
     author = Author.objects.get(pk=id)
     author = f'{author.first_name} {author.last_name}'
-    try:
-        return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
-    except:
-        return HttpResponseNotFound(f'Books by this author is not found.')
+    return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
 
 
 def create_book(request):
