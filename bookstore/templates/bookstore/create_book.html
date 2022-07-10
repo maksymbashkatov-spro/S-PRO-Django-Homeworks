@@ -2,9 +2,27 @@
 {% block title %}Create new book{% endblock %}
 {% block content %}
 <div class="container">
+    <h1 class="title">Create new book</h1>
     <form action="/bookstore/" method="post">
         {% csrf_token %}
-        {{ create_book_form.as_p }}
+        <div class="row">
+            <div class="row card">
+                <h5 class="title">Enter book title</h5>
+                {{ create_book_form.title }}
+            </div>
+            <div class="row card">
+                <h5 class="title">Enter released year</h5>
+                {{ create_book_form.released_year }}
+            </div>
+            <div class="row card">
+                <h5 class="title">Enter description</h5>
+                {{ create_book_form.description }}
+            </div>
+            <div class="row card">
+                <h5 class="title">Enter author id</h5>
+                {{ create_book_form.author_id }}
+            </div>
+        </div>
         <input type="submit" value="Add book">
     </form>
 </div>
