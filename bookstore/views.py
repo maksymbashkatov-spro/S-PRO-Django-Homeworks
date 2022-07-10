@@ -1,5 +1,7 @@
 from django.http import HttpRequest, HttpResponseNotFound
 from django.shortcuts import render
+
+from bookstore.forms import CreateBookForm
 from bookstore.models import Book, Author
 
 
@@ -8,6 +10,16 @@ def all_books(request: HttpRequest):
     if request.method == 'GET' and 'book_title' in request.GET:
         book_title = request.GET['book_title']
         books = books.filter(title=book_title)
+    if request.method == 'POST':
+        form = CreateBookForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            title = data['title']
+            released_year = data['released_year']
+            description = data['description']
+            author_id = data['author_id']
+            Book.objects.create(title=title, released_year=released_year, description=description,
+                                author=Author.objects.get(id=author_id))
     return render(request, 'bookstore/index.html', {'books': books})
 
 
@@ -40,4 +52,4 @@ def get_authors_books(request: HttpRequest, id):
 
 
 def create_book(request):
-    return render(request, 'bookstore/create_book.html')
+    return render(request, 'bookstore/create_book.html', {'create_book_form': CreateBookForm})

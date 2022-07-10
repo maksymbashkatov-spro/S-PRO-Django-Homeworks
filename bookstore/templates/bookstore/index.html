@@ -9,7 +9,7 @@
     </form>
     <div class="row">
         {% for book in books %}
-            <div class="col card">
+            <div class="col-3 card">
                 <h2 class="title">{{ book.title }}</h2>
                 <h3>{{ book.released_year }}</h3>
                 <p>{{ book.description|slice:30 }}<a href="{% url 'full_desc' book.id %}">...more</a></p>
