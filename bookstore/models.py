@@ -9,6 +9,9 @@ class Author(models.Model):
     class Meta:
         db_table = 'authors'
 
+    def __str__(self):
+        return f'{self.first_name} | {self.last_name} | {self.age}'
+
     # @staticmethod
     # def create_authors():
     #     for a in authors:
@@ -21,6 +24,9 @@ class Book(models.Model):
     released_year = models.IntegerField()
     description = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE, blank='true', null='true')
+
+    def __str__(self):
+        return f'{self.title} | {self.released_year} | {self.description} | {self.author}'
 
     class Meta:
         db_table = 'books'
