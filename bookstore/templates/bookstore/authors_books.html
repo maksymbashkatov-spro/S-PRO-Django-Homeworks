@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        {% for book in authors_books %}
+        {% for book in object_list %}
             <div class="col card">
                 <h2 class="title">{{ book.title }}</h2>
                 <h3>{{ book.released_year }}</h3>

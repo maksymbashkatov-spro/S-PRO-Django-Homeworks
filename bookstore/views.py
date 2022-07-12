@@ -1,16 +1,21 @@
-from django.http import HttpRequest
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-
+from django.shortcuts import render, get_object_or_404
 from bookstore.forms import CreateBookForm
 from bookstore.models import Book, Author
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 
-def all_books(request: HttpRequest):
-    books = Book.objects.all()
-    if request.method == 'GET' and 'book_title' in request.GET:
-        book_title = request.GET['book_title']
-        books = books.filter(title=book_title)
-    if request.method == 'POST':
+class BookView(View):
+    def get(self, request):
+        books = Book.objects.all()
+        if 'book_title' in request.GET:
+            book_title = request.GET['book_title']
+            books = books.filter(title=book_title)
+        return render(request, 'bookstore/index.html', {'books': books})
+
+    def post(self, request):
+        books = Book.objects.all()
         form = CreateBookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -20,26 +25,35 @@ def all_books(request: HttpRequest):
             author_id = data['author_id']
             Book.objects.create(title=title, released_year=released_year, description=description,
                                 author=Author.objects.get(id=author_id))
-    return render(request, 'bookstore/index.html', {'books': books})
+        return render(request, 'bookstore/index.html', {'books': books})
 
 
-def full_desc(request: HttpRequest, id):
-    return render(request, 'bookstore/full_desc.html', {'description': get_object_or_404(Book, pk=id).description})
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = 'bookstore/get_author.html'
 
 
-def get_book(request: HttpRequest, id):
-    return render(request, 'bookstore/get_book.html', {'book': get_object_or_404(Book, pk=id)})
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'bookstore/get_book.html'
 
 
-def get_author(request: HttpRequest, id):
-    return render(request, 'bookstore/get_author.html', {'author': get_object_or_404(Author, pk=id)})
+class FullDescDetailView(DetailView):
+    model = Book
+    template_name = 'bookstore/full_desc.html'
 
 
-def get_authors_books(request: HttpRequest, id):
-    authors_books = get_list_or_404(Book, author=id)
-    author = Author.objects.get(pk=id)
-    author = f'{author.first_name} {author.last_name}'
-    return render(request, 'bookstore/authors_books.html', {'authors_books': authors_books, 'author': author})
+class AuthorsBookListView(ListView):
+    template_name = 'bookstore/authors_books.html'
+
+    def get_queryset(self):
+        self.author = get_object_or_404(Author, id=self.kwargs['pk'])
+        return Book.objects.filter(author=self.author)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author'] = f'{self.author.first_name} {self.author.last_name}'
+        return context
 
 
 def create_book(request):
