@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -37,3 +38,12 @@ class Book(models.Model):
     #         book = Book(title=b['title'], released_year=b['released_year'], description=b['description'],
     #                     author_id=Author.objects.get(id=b['author_id']))
     #         book.save()
+
+
+class Review(models.Model):
+    text = models.TextField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank='true', null='true')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank='true', null='true')
+
+    class Meta:
+        db_table = 'reviews'
