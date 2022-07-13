@@ -9,5 +9,33 @@
         <a href="{% url 'get_author' book.author.id %}">Author info</a>
         <a href="{% url 'all_books' %}">List of books</a>
     </div>
+    <div class="col card">
+        {% if user.is_authenticated %}
+            <h2 class="title">Hi {{ user.username }}. You can write review in the field below.</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        {{ create_review_form.text }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" value="Create review">
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+    <div class="col card">
+        <h2 class="title">List of reviews</h2>
+        {% for review in reviews %}
+            <div class="row">
+                Review author: {{ review.user.username }}<br>
+                {{ review.text }}<br>
+                ---<br><br>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

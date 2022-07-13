@@ -27,7 +27,7 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, blank='true', null='true')
 
     def __str__(self):
-        return f'{self.title} | {self.released_year} | {self.description} | {self.author}'
+        return f'{self.title}'
 
     class Meta:
         db_table = 'books'

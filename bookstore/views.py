@@ -1,12 +1,15 @@
+from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
-from bookstore.forms import CreateBookForm
-from bookstore.models import Book, Author
+from django.views.generic import FormView
+
+from bookstore.forms import CreateBookForm, CreateReviewForm
+from bookstore.models import Book, Author, Review
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 
-class BookView(View):
+class AllBookView(View):
     def get(self, request):
         books = Book.objects.all()
         if 'book_title' in request.GET:
@@ -33,9 +36,22 @@ class AuthorDetailView(DetailView):
     template_name = 'bookstore/get_author.html'
 
 
-class BookDetailView(DetailView):
-    model = Book
-    template_name = 'bookstore/get_book.html'
+# class BookDetailView(DetailView):
+#     model = Book
+#     template_name = 'bookstore/get_book.html'
+
+
+def get_book(request: HttpRequest, id):
+    if request.method == 'POST':
+        form = CreateReviewForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            text = data['text']
+            print('XXX', Book.objects.get(pk=id))
+            Review.objects.create(text=text, book=Book.objects.get(pk=id), user=request.user)
+    return render(request, 'bookstore/get_book.html', {'book': get_object_or_404(Book, pk=id),
+                                                       'create_review_form': CreateReviewForm,
+                                                       'reviews': Review.objects.all()})
 
 
 class FullDescDetailView(DetailView):
